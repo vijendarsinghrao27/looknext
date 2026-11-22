@@ -250,7 +250,7 @@ footer{
 <footer>
  <strong>?? ToolNest</strong>
  <p>Smart Tools. Simple Solutions.</p>
- <small>© 2026 ToolNest. All rights reserved.</small>
+ <small>Â© 2026 ToolNest. All rights reserved.</small>
 </footer>
 
 <script>
@@ -369,8 +369,8 @@ function openTool(name){
  <button onclick="sciClear()">AC</button><button onclick="sciDelete()">DEL</button><button onclick="sciAdd('(')">(</button><button onclick="sciAdd(')')">)</button>
  <button onclick="sciAdd('sin(')">sin</button><button onclick="sciAdd('cos(')">cos</button><button onclick="sciAdd('tan(')">tan</button><button onclick="sciAdd('sqrt(')">v</button>
  <button onclick="sciAdd('log(')">log</button><button onclick="sciAdd('ln(')">ln</button><button onclick="sciAdd('pi')">p</button><button onclick="sciAdd('e')">e</button>
- <button onclick="sciAdd('7')">7</button><button onclick="sciAdd('8')">8</button><button onclick="sciAdd('9')">9</button><button onclick="sciAdd('/')">÷</button>
- <button onclick="sciAdd('4')">4</button><button onclick="sciAdd('5')">5</button><button onclick="sciAdd('6')">6</button><button onclick="sciAdd('*')">×</button>
+ <button onclick="sciAdd('7')">7</button><button onclick="sciAdd('8')">8</button><button onclick="sciAdd('9')">9</button><button onclick="sciAdd('/')">Ã·</button>
+ <button onclick="sciAdd('4')">4</button><button onclick="sciAdd('5')">5</button><button onclick="sciAdd('6')">6</button><button onclick="sciAdd('*')">Ã—</button>
  <button onclick="sciAdd('1')">1</button><button onclick="sciAdd('2')">2</button><button onclick="sciAdd('3')">3</button><button onclick="sciAdd('-')">-</button>
  <button onclick="sciAdd('0')">0</button><button onclick="sciAdd('.')">.</button><button onclick="sciAdd('^')">x?</button><button onclick="sciAdd('+')">+</button>
  <button class="equal" onclick="sciCalculate()">= Calculate</button>
@@ -499,8 +499,8 @@ function convertUnit(){
   inch:[v*2.54," cm"],
   m:[v*3.28084," feet"],
   ft:[v/3.28084," metres"],
-  c:[v*9/5+32," °F"],
-  f:[(v-32)*5/9," °C"]
+  c:[v*9/5+32," Â°F"],
+  f:[(v-32)*5/9," Â°C"]
  };
  showResult(map[type][0].toFixed(4)+map[type][1]);
 }
@@ -767,7 +767,7 @@ async function compressImage(){
     <p>Original size: ${formatBytes(file.size)}</p>
     <p>New size: ${formatBytes(blob.size)}</p>
     <p>Size change: ${reduction>=0?reduction.toFixed(1)+"% smaller":Math.abs(reduction).toFixed(1)+"% larger"}</p>
-    <p>New dimensions: ${width} × ${height} pixels</p>
+    <p>New dimensions: ${width} Ã— ${height} pixels</p>
    </div>
    <div class="preview-grid">
     <div class="preview-box">
