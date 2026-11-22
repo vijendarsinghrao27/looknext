@@ -1,0 +1,851 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="ToolNest - Free online calculators and useful everyday tools.">
+<title>ToolNest | Smart Online Tools</title>
+
+<style>
+:root{
+ --bg:#f4f6fc;--card:#ffffff;--text:#172033;
+ --muted:#64748b;--primary:#5145e5;--border:#e2e8f0;
+ --soft:#eef0ff;--shadow:0 8px 28px rgba(30,40,80,.07);
+}
+body.dark{
+ --bg:#101827;--card:#1e293b;--text:#f8fafc;
+ --muted:#bdc9d9;--primary:#918aff;--border:#334155;
+ --soft:#293653;--shadow:0 8px 28px rgba(0,0,0,.2);
+}
+*{box-sizing:border-box}
+body{
+ margin:0;font-family:Arial,Helvetica,sans-serif;
+ background:var(--bg);color:var(--text);transition:.2s;
+}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+header{
+ background:var(--card);border-bottom:1px solid var(--border);
+ padding:17px 5%;display:flex;justify-content:space-between;
+ align-items:center;gap:12px;flex-wrap:wrap;
+}
+.logo{font-size:26px;font-weight:800;color:var(--primary)}
+.logo span{color:var(--text)}
+.header-actions{display:flex;gap:10px}
+.btn{
+ border:0;background:var(--primary);color:white;
+ padding:11px 17px;border-radius:9px;font-weight:bold;
+}
+.btn.secondary{
+ background:var(--soft);color:var(--text);
+ border:1px solid var(--border);
+}
+.hero{
+ text-align:center;padding:52px 15px 30px;
+ background:linear-gradient(135deg,var(--bg),var(--soft));
+}
+.hero h1{font-size:clamp(30px,5vw,48px);margin:0 0 12px}
+.hero p{color:var(--muted);font-size:16px}
+.search{
+ width:min(90%,580px);padding:15px 18px;
+ border:1px solid var(--border);border-radius:12px;
+ background:var(--card);color:var(--text);margin-top:18px;
+ outline:none;
+}
+.container{width:min(1120px,92%);margin:auto}
+.section-heading{margin:35px 0 15px}
+.section-heading p{color:var(--muted)}
+.tools-grid{
+ display:grid;grid-template-columns:repeat(auto-fit,minmax(225px,1fr));
+ gap:18px;margin:20px 0 50px;
+}
+.tool-card{
+ background:var(--card);border:1px solid var(--border);
+ border-radius:15px;padding:22px;cursor:pointer;
+ box-shadow:var(--shadow);transition:.2s;
+}
+.tool-card:hover{
+ transform:translateY(-4px);border-color:var(--primary);
+}
+.tool-icon{font-size:34px;margin-bottom:12px}
+.tool-card h3{margin:0 0 8px;font-size:18px}
+.tool-card p{margin:0;color:var(--muted);font-size:14px;line-height:1.5}
+.tool-panel{
+ display:none;background:var(--card);
+ border:1px solid var(--border);border-radius:17px;
+ padding:25px;margin:25px auto 45px;max-width:760px;
+ box-shadow:var(--shadow);
+}
+.tool-panel h2{margin:5px 0 20px}
+.back-btn{margin-bottom:18px}
+.field{margin:15px 0}
+.field label{display:block;font-weight:bold;font-size:14px;margin-bottom:7px}
+input[type="text"],input[type="number"],input[type="date"],
+input[type="file"],select,textarea{
+ width:100%;padding:13px;border:1px solid var(--border);
+ border-radius:9px;background:var(--bg);color:var(--text);
+ outline:none;
+}
+textarea{resize:vertical;min-height:110px}
+input:focus,select:focus,textarea:focus{
+ border-color:var(--primary);
+}
+.result{
+ background:var(--soft);border:1px solid var(--border);
+ padding:15px;border-radius:10px;margin-top:15px;
+ overflow-wrap:anywhere;line-height:1.6;
+}
+.button-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.button-row button{flex:1;min-width:110px}
+.muted{color:var(--muted);font-size:13px}
+.science-grid{
+ display:grid;grid-template-columns:repeat(4,1fr);
+ gap:8px;margin-top:12px;
+}
+.science-grid button{
+ padding:14px 4px;border:1px solid var(--border);
+ border-radius:9px;background:var(--soft);color:var(--text);
+}
+.science-grid button:hover{background:var(--primary);color:white}
+.science-grid .equal{
+ grid-column:span 4;background:var(--primary);color:white;
+ font-weight:bold;
+}
+.range-row{display:flex;justify-content:space-between;gap:10px}
+.preview-grid{
+ display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:12px;margin-top:15px;
+}
+.preview-box{
+ background:var(--bg);border:1px solid var(--border);
+ padding:10px;border-radius:10px;min-width:0;
+}
+.preview-box img{width:100%;height:180px;object-fit:contain}
+.qr-image{max-width:220px;width:100%;display:block;margin:10px auto}
+footer{
+ text-align:center;padding:35px 15px;color:var(--muted);
+ border-top:1px solid var(--border);
+}
+.hidden{display:none!important}
+@media(max-width:550px){
+ .tool-panel{padding:17px}
+ .preview-grid{grid-template-columns:1fr}
+ .preview-box img{height:150px}
+ .hero{padding-top:38px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+ <div class="logo">?? Tool<span>Nest</span></div>
+ <div class="header-actions">
+  <button class="btn secondary" onclick="toggleTheme()">?? / ?? Theme</button>
+ </div>
+</header>
+
+<section class="hero">
+ <h1>One Platform. Many Solutions.</h1>
+ <p>Smart, simple and useful tools for everyday life.</p>
+ <input class="search" id="search" placeholder="?? Search tools..." oninput="searchTools()">
+</section>
+
+<main class="container">
+
+ <div class="section-heading">
+  <h2>Explore Our Tools</h2>
+  <p>Choose a tool and get your work done.</p>
+ </div>
+
+ <div class="tools-grid" id="toolsGrid">
+
+  <div class="tool-card" onclick="openTool('age')">
+   <div class="tool-icon">??</div>
+   <h3>Age Calculator</h3>
+   <p>Calculate your age in years, months and days.</p>
+  </div>
+
+  <div class="tool-card" onclick="openTool('percentage')">
+   <div class="tool-icon">??</div>
+   <h3>Percentage Calculator</h3>
+   <p>Calculate marks and percentages.</p>
+  </div>
+
+  <div class="tool-card" onclick="openTool('unit')">
+   <div class="tool-icon">??</div>
+   <h3>Unit Converter</h3>
+   <p>Convert length, weight and temperature.</p>
+  </div>
+
+  <div class="tool-card" onclick="openTool('time')">
+   <div class="tool-icon">??</div>
+   <h3>Time Calculator</h3>
+   <p>Add or subtract hours and minutes.</p>
+  </div>
+
+  <div class="tool-card" onclick="openTool('words')">
+   <div class="tool-icon">??</div>
+   <h3>Word Counter</h3>
+   <p>Count words, characters and sentences.</p>
+  </div>
+
+  <div class="tool-card" onclick="openTool('qr')">
+   <div class="tool-icon">??</div>
+   <h3>QR Code Generator</h3>
+   <p>Generate QR codes from text and links.</p>
+  </div>
+
+  <div class="tool-card" onclick="openTool('scientific')">
+   <div class="tool-icon">??</div>
+   <h3>Scientific Calculator</h3>
+   <p>Advanced mathematical calculations.</p>
+  </div>
+
+  <div class="tool-card" onclick="openTool('gst')">
+   <div class="tool-icon">??</div>
+   <h3>GST Calculator</h3>
+   <p>Calculate GST, CGST and SGST.</p>
+  </div>
+
+  <div class="tool-card" onclick="openTool('date')">
+   <div class="tool-icon">??</div>
+   <h3>Date Difference</h3>
+   <p>Calculate the difference between two dates.</p>
+  </div>
+
+  <div class="tool-card" onclick="openTool('password')">
+   <div class="tool-icon">??</div>
+   <h3>Password Generator</h3>
+   <p>Generate random secure passwords.</p>
+  </div>
+
+  <div class="tool-card" onclick="openTool('image')">
+   <div class="tool-icon">???</div>
+   <h3>Image Compressor</h3>
+   <p>Compress images directly in your browser.</p>
+  </div>
+
+  <div class="tool-card" onclick="openTool('case')">
+   <div class="tool-icon">??</div>
+   <h3>Text Case Converter</h3>
+   <p>Convert text into different letter cases.</p>
+  </div>
+
+ </div>
+
+ <section class="tool-panel" id="toolPanel">
+  <button class="btn secondary back-btn" onclick="goHome()">? Back to Tools</button>
+  <div id="toolContent"></div>
+ </section>
+
+ <section style="text-align:center;padding:20px 0 45px">
+  <h2>About ToolNest</h2>
+  <p class="muted">Our mission is to make everyday digital tasks simple and accessible.</p>
+ </section>
+
+</main>
+
+<footer>
+ <strong>?? ToolNest</strong>
+ <p>Smart Tools. Simple Solutions.</p>
+ <small>© 2026 ToolNest. All rights reserved.</small>
+</footer>
+
+<script>
+const titles={
+ age:"?? Age Calculator",
+ percentage:"?? Percentage Calculator",
+ unit:"?? Unit Converter",
+ time:"?? Time Calculator",
+ words:"?? Word Counter",
+ qr:"?? QR Code Generator",
+ scientific:"?? Scientific Calculator",
+ gst:"?? GST Calculator",
+ date:"?? Date Difference Calculator",
+ password:"?? Password Generator",
+ image:"??? Image Compressor",
+ case:"?? Text Case Converter"
+};
+
+let sciMode="DEG";
+let imageOriginal=null;
+let imageCompressedUrl=null;
+let imageCompressedBlob=null;
+let selectedImage=null;
+
+function toggleTheme(){
+ document.body.classList.toggle("dark");
+}
+
+function searchTools(){
+ const q=document.getElementById("search").value.toLowerCase();
+ document.querySelectorAll(".tool-card").forEach(card=>{
+  card.style.display=card.innerText.toLowerCase().includes(q)?"block":"none";
+ });
+}
+
+function goHome(){
+ document.getElementById("toolPanel").style.display="none";
+ document.getElementById("toolsGrid").style.display="grid";
+ document.getElementById("search").value="";
+ searchTools();
+}
+
+function openTool(name){
+ const panel=document.getElementById("toolPanel");
+ const grid=document.getElementById("toolsGrid");
+ const content=document.getElementById("toolContent");
+
+ grid.style.display="none";
+ panel.style.display="block";
+
+ let html="<h2>"+titles[name]+"</h2>";
+
+ if(name==="age") html=`
+ <h2>${titles[name]}</h2>
+ <div class="field"><label>Date of Birth</label><input type="date" id="birthDate"></div>
+ <button class="btn" onclick="calculateAge()">Calculate Age</button>
+ <div class="result" id="result">Your age will appear here.</div>`;
+
+ if(name==="percentage") html=`
+ <h2>${titles[name]}</h2>
+ <div class="field"><label>Obtained Marks</label><input type="number" id="obtained" min="0" placeholder="e.g. 450"></div>
+ <div class="field"><label>Total Marks</label><input type="number" id="total" min="1" placeholder="e.g. 500"></div>
+ <button class="btn" onclick="calculatePercentage()">Calculate</button>
+ <div class="result" id="result">Your percentage will appear here.</div>`;
+
+ if(name==="unit") html=`
+ <h2>${titles[name]}</h2>
+ <div class="field"><label>Enter Value</label><input type="number" id="unitValue" placeholder="Enter a value"></div>
+ <div class="field"><label>Conversion</label>
+ <select id="unitType">
+ <option value="km">Kilometres ? Miles</option>
+ <option value="miles">Miles ? Kilometres</option>
+ <option value="kg">Kilograms ? Pounds</option>
+ <option value="lb">Pounds ? Kilograms</option>
+ <option value="cm">Centimetres ? Inches</option>
+ <option value="inch">Inches ? Centimetres</option>
+ <option value="m">Metres ? Feet</option>
+ <option value="ft">Feet ? Metres</option>
+ <option value="c">Celsius ? Fahrenheit</option>
+ <option value="f">Fahrenheit ? Celsius</option>
+ </select></div>
+ <button class="btn" onclick="convertUnit()">Convert</button>
+ <div class="result" id="result">Result will appear here.</div>`;
+
+ if(name==="time") html=`
+ <h2>${titles[name]}</h2>
+ <div class="field"><label>First Hours</label><input type="number" id="h1" min="0" value="1"></div>
+ <div class="field"><label>First Minutes</label><input type="number" id="m1" min="0" value="30"></div>
+ <div class="field"><label>Second Hours</label><input type="number" id="h2" min="0" value="0"></div>
+ <div class="field"><label>Second Minutes</label><input type="number" id="m2" min="0" value="45"></div>
+ <div class="field"><label>Operation</label><select id="timeOperation"><option value="add">Add</option><option value="subtract">Subtract</option></select></div>
+ <button class="btn" onclick="calculateTime()">Calculate Time</button>
+ <div class="result" id="result">Result will appear here.</div>`;
+
+ if(name==="words") html=`
+ <h2>${titles[name]}</h2>
+ <div class="field"><label>Your Text</label>
+ <textarea id="wordText" placeholder="Type or paste your text here..." oninput="countWords()"></textarea></div>
+ <div class="result" id="result">Words: 0 | Characters: 0</div>
+ <button class="btn secondary" onclick="clearWords()">Clear Text</button>`;
+
+ if(name==="qr") html=`
+ <h2>${titles[name]}</h2>
+ <div class="field"><label>Enter Text or URL</label><input type="text" id="qrText" placeholder="https://example.com"></div>
+ <button class="btn" onclick="makeQR()">Generate QR Code</button>
+ <div class="result" id="result">Your QR code will appear here.</div>`;
+
+ if(name==="scientific") html=`
+ <h2>${titles[name]}</h2>
+ <div class="field"><label>Expression</label><input id="sciDisplay" placeholder="Enter expression" readonly></div>
+ <div class="button-row">
+ <button class="btn secondary" onclick="setSciMode('DEG')">DEG</button>
+ <button class="btn secondary" onclick="setSciMode('RAD')">RAD</button>
+ </div>
+ <div class="science-grid">
+ <button onclick="sciClear()">AC</button><button onclick="sciDelete()">DEL</button><button onclick="sciAdd('(')">(</button><button onclick="sciAdd(')')">)</button>
+ <button onclick="sciAdd('sin(')">sin</button><button onclick="sciAdd('cos(')">cos</button><button onclick="sciAdd('tan(')">tan</button><button onclick="sciAdd('sqrt(')">v</button>
+ <button onclick="sciAdd('log(')">log</button><button onclick="sciAdd('ln(')">ln</button><button onclick="sciAdd('pi')">p</button><button onclick="sciAdd('e')">e</button>
+ <button onclick="sciAdd('7')">7</button><button onclick="sciAdd('8')">8</button><button onclick="sciAdd('9')">9</button><button onclick="sciAdd('/')">÷</button>
+ <button onclick="sciAdd('4')">4</button><button onclick="sciAdd('5')">5</button><button onclick="sciAdd('6')">6</button><button onclick="sciAdd('*')">×</button>
+ <button onclick="sciAdd('1')">1</button><button onclick="sciAdd('2')">2</button><button onclick="sciAdd('3')">3</button><button onclick="sciAdd('-')">-</button>
+ <button onclick="sciAdd('0')">0</button><button onclick="sciAdd('.')">.</button><button onclick="sciAdd('^')">x?</button><button onclick="sciAdd('+')">+</button>
+ <button class="equal" onclick="sciCalculate()">= Calculate</button>
+ </div>
+ <div class="result" id="sciResult">Result will appear here.</div>`;
+
+ if(name==="gst") html=`
+ <h2>${titles[name]}</h2>
+ <div class="field"><label>Amount (?)</label><input type="number" id="gstAmount" min="0" placeholder="Enter amount"></div>
+ <div class="field"><label>GST Rate</label>
+ <select id="gstRate">
+ <option value="5">5%</option><option value="12">12%</option>
+ <option value="18" selected>18%</option><option value="28">28%</option>
+ </select></div>
+ <div class="field"><label>Calculation Type</label>
+ <select id="gstType">
+ <option value="add">Add GST to amount</option>
+ <option value="remove">Remove GST from inclusive amount</option>
+ </select></div>
+ <button class="btn" onclick="calculateGST()">Calculate GST</button>
+ <div class="result" id="result">GST breakdown will appear here.</div>`;
+
+ if(name==="date") html=`
+ <h2>${titles[name]}</h2>
+ <div class="field"><label>Start Date</label><input type="date" id="dateStart"></div>
+ <div class="field"><label>End Date</label><input type="date" id="dateEnd"></div>
+ <button class="btn" onclick="calculateDateDifference()">Calculate Difference</button>
+ <div class="result" id="result">Date difference will appear here.</div>`;
+
+ if(name==="password") html=`
+ <h2>${titles[name]}</h2>
+ <div class="field"><label>Password Length: <span id="passwordLengthValue">16</span></label>
+ <input type="range" id="passwordLength" min="8" max="64" value="16" oninput="document.getElementById('passwordLengthValue').textContent=this.value"></div>
+ <div class="field"><label><input type="checkbox" id="passUpper" checked style="width:auto"> Uppercase letters (A-Z)</label></div>
+ <div class="field"><label><input type="checkbox" id="passLower" checked style="width:auto"> Lowercase letters (a-z)</label></div>
+ <div class="field"><label><input type="checkbox" id="passNumbers" checked style="width:auto"> Numbers (0-9)</label></div>
+ <div class="field"><label><input type="checkbox" id="passSymbols" checked style="width:auto"> Symbols (!@#$...)</label></div>
+ <button class="btn" onclick="generatePassword()">Generate Password</button>
+ <div class="result" id="passwordResult">Your password will appear here.</div>
+ <div class="button-row"><button class="btn secondary" onclick="copyPassword()">Copy Password</button></div>
+ <p class="muted">Use a unique password for every account. Store it safely.</p>`;
+
+ if(name==="image") html=`
+ <h2>${titles[name]}</h2>
+ <p class="muted">Your image is processed locally in your browser. It is not uploaded to our server.</p>
+ <div class="field"><label>Select an Image</label>
+ <input type="file" id="imageFile" accept="image/jpeg,image/png,image/webp"></div>
+ <div class="field"><label>Output Format</label>
+ <select id="imageFormat">
+ <option value="image/jpeg">JPG</option>
+ <option value="image/webp">WebP</option>
+ <option value="image/png">PNG</option>
+ </select></div>
+ <div class="field"><div class="range-row"><label>Image Quality</label><strong id="qualityValue">80%</strong></div>
+ <input type="range" id="imageQuality" min="10" max="100" value="80" oninput="document.getElementById('qualityValue').textContent=this.value+'%'"></div>
+ <div class="field"><label>Maximum Width (pixels)</label><input type="number" id="imageWidth" min="100" max="10000" value="1600"></div>
+ <button class="btn" onclick="compressImage()">Compress Image</button>
+ <div id="imageResult"></div>`;
+
+ if(name==="case") html=`
+ <h2>${titles[name]}</h2>
+ <div class="field"><label>Enter Your Text</label>
+ <textarea id="caseText" placeholder="Write or paste your text here..."></textarea></div>
+ <div class="button-row">
+ <button class="btn" onclick="convertCase('upper')">UPPERCASE</button>
+ <button class="btn secondary" onclick="convertCase('lower')">lowercase</button>
+ </div>
+ <div class="button-row">
+ <button class="btn secondary" onclick="convertCase('title')">Title Case</button>
+ <button class="btn secondary" onclick="convertCase('sentence')">Sentence case</button>
+ </div>
+ <div class="button-row">
+ <button class="btn secondary" onclick="convertCase('alternating')">aLtErNaTiNg</button>
+ <button class="btn secondary" onclick="convertCase('clear')">Clear</button>
+ </div>
+ <div class="button-row"><button class="btn secondary" onclick="copyCase()">Copy Result</button></div>
+ <div class="result" id="caseResult">Your converted text will appear here.</div>`;
+
+ content.innerHTML=html;
+ if(name==="image"){
+  selectedImage=null;
+  imageOriginal=null;
+  clearImageResult();
+ }
+}
+
+/* AGE CALCULATOR */
+function calculateAge(){
+ const value=document.getElementById("birthDate").value;
+ if(!value)return showResult("Please select your date of birth.");
+ const birth=new Date(value+"T00:00:00");
+ const today=new Date();
+ if(birth>today)return showResult("Birth date cannot be in the future.");
+ let y=today.getFullYear()-birth.getFullYear();
+ let m=today.getMonth()-birth.getMonth();
+ let d=today.getDate()-birth.getDate();
+ if(d<0){
+  m--;
+  d+=new Date(today.getFullYear(),today.getMonth(),0).getDate();
+ }
+ if(m<0){y--;m+=12;}
+ showResult(y+" years, "+m+" months, "+d+" days");
+}
+
+/* PERCENTAGE */
+function calculatePercentage(){
+ const av=document.getElementById("obtained").value;
+ const bv=document.getElementById("total").value;
+ const a=Number(av),b=Number(bv);
+ if(av===""||bv===""||!Number.isFinite(a)||!Number.isFinite(b)||b<=0||a<0)
+  return showResult("Please enter valid marks and total marks.");
+ showResult("Percentage: "+(a/b*100).toFixed(2)+"%");
+}
+
+/* UNIT CONVERTER */
+function convertUnit(){
+ const raw=document.getElementById("unitValue").value;
+ if(raw==="")return showResult("Please enter a value.");
+ const v=Number(raw),type=document.getElementById("unitType").value;
+ const map={
+  km:[v*.621371," miles"],
+  miles:[v/ .621371," km"],
+  kg:[v*2.20462," lb"],
+  lb:[v/2.20462," kg"],
+  cm:[v/2.54," inches"],
+  inch:[v*2.54," cm"],
+  m:[v*3.28084," feet"],
+  ft:[v/3.28084," metres"],
+  c:[v*9/5+32," °F"],
+  f:[(v-32)*5/9," °C"]
+ };
+ showResult(map[type][0].toFixed(4)+map[type][1]);
+}
+
+/* TIME CALCULATOR */
+function calculateTime(){
+ const ids=["h1","m1","h2","m2"];
+ const values=ids.map(id=>document.getElementById(id).value);
+ if(values.some(v=>v===""))return showResult("Please fill in all fields.");
+ const n=values.map(Number);
+ if(n.some(v=>!Number.isFinite(v)||v<0))return showResult("Enter valid non-negative values.");
+ let total=n[0]*60+n[1]+n[2]*60+n[3];
+ if(document.getElementById("timeOperation").value==="subtract")
+  total=n[0]*60+n[1]-(n[2]*60+n[3]);
+ const sign=total<0?"-":"";
+ total=Math.abs(total);
+ showResult(sign+Math.floor(total/60)+" hours "+(total%60)+" minutes");
+}
+
+/* WORD COUNTER */
+function countWords(){
+ const t=document.getElementById("wordText").value;
+ const words=t.trim()?t.trim().split(/\s+/).length:0;
+ const sentences=t.trim()?t.trim().split(/[.!?]+/).filter(s=>s.trim()).length:0;
+ document.getElementById("result").textContent=
+ "Words: "+words+" | Characters: "+t.length+
+ " | Without spaces: "+t.replace(/\s/g,"").length+
+ " | Sentences: "+sentences;
+}
+function clearWords(){
+ document.getElementById("wordText").value="";
+ countWords();
+}
+
+/* QR GENERATOR */
+function makeQR(){
+ const text=document.getElementById("qrText").value.trim();
+ if(!text)return showResult("Please enter text or a URL.");
+ const url="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data="+encodeURIComponent(text);
+ document.getElementById("result").innerHTML=
+ '<img class="qr-image" alt="QR Code" src="'+url+'"><p style="text-align:center">QR code generated.</p>';
+}
+
+/* SCIENTIFIC CALCULATOR */
+function setSciMode(mode){sciMode=mode;}
+function sciAdd(value){document.getElementById("sciDisplay").value+=value;}
+function sciClear(){
+ document.getElementById("sciDisplay").value="";
+ document.getElementById("sciResult").textContent="Result will appear here.";
+}
+function sciDelete(){
+ const d=document.getElementById("sciDisplay");
+ d.value=d.value.slice(0,-1);
+}
+function sciCalculate(){
+ const expression=document.getElementById("sciDisplay").value;
+ const output=document.getElementById("sciResult");
+ try{
+  if(!expression)throw Error("Enter an expression");
+  const tokens=expression.match(/(?:\d+(?:\.\d*)?|\.\d+)|(?:sin|cos|tan|sqrt|log|ln)|pi|e|[+\-*/^()]|\s+/gy);
+  if(!tokens||tokens.join("").replace(/\s/g,"")!==expression.replace(/\s/g,""))
+   throw Error("Invalid expression");
+  const t=tokens.filter(x=>!/\s/.test(x));
+  let p=0;
+  function expr(){
+   let v=term();
+   while(t[p]==="+"||t[p]==="-"){
+    const op=t[p++],r=term();
+    v=op==="+"?v+r:v-r;
+   }
+   return v;
+  }
+  function term(){
+   let v=power();
+   while(t[p]==="*"||t[p]==="/"){
+    const op=t[p++],r=power();
+    v=op==="*"?v*r:v/r;
+   }
+   return v;
+  }
+  function power(){
+   let v=unary();
+   if(t[p]==="^"){p++;v=Math.pow(v,power());}
+   return v;
+  }
+  function unary(){
+   if(t[p]==="+"){p++;return unary();}
+   if(t[p]==="-"){p++;return -unary();}
+   return primary();
+  }
+  function primary(){
+   const token=t[p++];
+   if(token==="("){
+    const v=expr();
+    if(t[p++]!==")")throw Error("Missing closing bracket");
+    return v;
+   }
+   if(["sin","cos","tan","sqrt","log","ln"].includes(token)){
+    if(t[p++]!=="(")throw Error("Use brackets after function");
+    const v=expr();
+    if(t[p++]!==")")throw Error("Missing closing bracket");
+    const a=sciMode==="DEG"?v*Math.PI/180:v;
+    if(token==="sin")return Math.sin(a);
+    if(token==="cos")return Math.cos(a);
+    if(token==="tan")return Math.tan(a);
+    if(token==="sqrt")return Math.sqrt(v);
+    if(token==="log")return Math.log10(v);
+    if(token==="ln")return Math.log(v);
+   }
+   if(token==="pi")return Math.PI;
+   if(token==="e")return Math.E;
+   if(/^(?:\d+(?:\.\d*)?|\.\d+)$/.test(token))return Number(token);
+   throw Error("Invalid expression");
+  }
+  const result=expr();
+  if(p!==t.length)throw Error("Invalid expression");
+  if(!Number.isFinite(result))throw Error("Math error");
+  output.textContent="Result: "+Number(result.toPrecision(12));
+ }catch(e){output.textContent="Error: "+e.message;}
+}
+
+/* GST CALCULATOR */
+function calculateGST(){
+ const raw=document.getElementById("gstAmount").value;
+ const amount=Number(raw);
+ const rate=Number(document.getElementById("gstRate").value);
+ const type=document.getElementById("gstType").value;
+ if(raw===""||!Number.isFinite(amount)||amount<0)
+  return showResult("Enter a valid amount.");
+ let base,gst,total;
+ if(type==="add"){
+  base=amount;gst=base*rate/100;total=base+gst;
+ }else{
+  total=amount;base=total/(1+rate/100);gst=total-base;
+ }
+ showResult(
+  "Original amount: ?"+base.toFixed(2)+
+  "\nGST ("+rate+"%): ?"+gst.toFixed(2)+
+  "\nCGST: ?"+(gst/2).toFixed(2)+
+  "\nSGST: ?"+(gst/2).toFixed(2)+
+  "\nTotal amount: ?"+total.toFixed(2)
+ );
+}
+
+/* DATE DIFFERENCE */
+function calculateDateDifference(){
+ const a=document.getElementById("dateStart").value;
+ const b=document.getElementById("dateEnd").value;
+ if(!a||!b)return showResult("Please select both dates.");
+ const start=new Date(a+"T00:00:00Z");
+ const end=new Date(b+"T00:00:00Z");
+ const diff=Math.abs(end-start);
+ const days=Math.round(diff/86400000);
+ showResult(
+  "Difference: "+days+" days"+
+  "\nWeeks: "+(days/7).toFixed(2)+
+  "\nApproximate months: "+(days/30.4375).toFixed(2)+
+  "\nApproximate years: "+(days/365.2425).toFixed(2)
+ );
+}
+
+/* PASSWORD GENERATOR */
+let generatedPassword="";
+function secureRandomIndex(max){
+ const limit=Math.floor(4294967296/max)*max;
+ const arr=new Uint32Array(1);
+ let n;
+ do{
+  crypto.getRandomValues(arr);
+  n=arr[0];
+ }while(n>=limit);
+ return n%max;
+}
+function generatePassword(){
+ const length=Number(document.getElementById("passwordLength").value);
+ const groups=[];
+ if(document.getElementById("passUpper").checked)groups.push("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+ if(document.getElementById("passLower").checked)groups.push("abcdefghijklmnopqrstuvwxyz");
+ if(document.getElementById("passNumbers").checked)groups.push("0123456789");
+ if(document.getElementById("passSymbols").checked)groups.push("!@#$%^&*()-_=+[]{}?");
+ if(!groups.length){
+  document.getElementById("passwordResult").textContent="Select at least one character type.";
+  return;
+ }
+ if(!window.crypto||!crypto.getRandomValues){
+  document.getElementById("passwordResult").textContent="Secure random generation is unavailable in this browser.";
+  return;
+ }
+ const all=groups.join("");
+ const chars=[];
+ groups.forEach(group=>chars.push(group[secureRandomIndex(group.length)]));
+ while(chars.length<length)chars.push(all[secureRandomIndex(all.length)]);
+ for(let i=chars.length-1;i>0;i--){
+  const j=secureRandomIndex(i+1);
+  [chars[i],chars[j]]=[chars[j],chars[i]];
+ }
+ generatedPassword=chars.join("");
+ document.getElementById("passwordResult").textContent=generatedPassword;
+}
+async function copyPassword(){
+ if(!generatedPassword)return alert("Generate a password first.");
+ await copyText(generatedPassword);
+ alert("Password copied.");
+}
+
+/* IMAGE COMPRESSOR */
+function clearImageResult(){
+ document.getElementById("imageResult").innerHTML="";
+}
+function formatBytes(bytes){
+ if(bytes<1024)return bytes+" B";
+ if(bytes<1048576)return (bytes/1024).toFixed(1)+" KB";
+ return (bytes/1048576).toFixed(2)+" MB";
+}
+async function compressImage(){
+ const fileInput=document.getElementById("imageFile");
+ const file=fileInput.files[0];
+ const result=document.getElementById("imageResult");
+ if(!file){
+  result.textContent="Please select an image first.";
+  return;
+ }
+ if(!["image/jpeg","image/png","image/webp"].includes(file.type)){
+  result.textContent="Please select a JPG, PNG or WebP image.";
+  return;
+ }
+ if(file.size>20*1024*1024){
+  result.textContent="Please select an image smaller than 20 MB.";
+  return;
+ }
+ const maxWidth=Number(document.getElementById("imageWidth").value);
+ if(!Number.isFinite(maxWidth)||maxWidth<100||maxWidth>10000){
+  result.textContent="Maximum width must be between 100 and 10000 pixels.";
+  return;
+ }
+ result.textContent="Processing image...";
+ try{
+  const bitmap=await createImageBitmap(file);
+  const scale=Math.min(1,maxWidth/bitmap.width);
+  const width=Math.max(1,Math.round(bitmap.width*scale));
+  const height=Math.max(1,Math.round(bitmap.height*scale));
+  const canvas=document.createElement("canvas");
+  canvas.width=width;
+  canvas.height=height;
+  const ctx=canvas.getContext("2d");
+  if(!ctx)throw Error("Canvas is not available.");
+  const format=document.getElementById("imageFormat").value;
+  if(format==="image/jpeg"){
+   ctx.fillStyle="#ffffff";
+   ctx.fillRect(0,0,width,height);
+  }
+  ctx.drawImage(bitmap,0,0,width,height);
+  bitmap.close();
+  const quality=Number(document.getElementById("imageQuality").value)/100;
+  const blob=await new Promise(resolve=>canvas.toBlob(resolve,format,quality));
+  if(!blob)throw Error("Could not compress this image.");
+  if(imageCompressedUrl)URL.revokeObjectURL(imageCompressedUrl);
+  imageCompressedBlob=blob;
+  imageCompressedUrl=URL.createObjectURL(blob);
+  const reduction=file.size>0?(1-blob.size/file.size)*100:0;
+  result.innerHTML=`
+   <div class="result">
+    <strong>Compression complete!</strong>
+    <p>Original size: ${formatBytes(file.size)}</p>
+    <p>New size: ${formatBytes(blob.size)}</p>
+    <p>Size change: ${reduction>=0?reduction.toFixed(1)+"% smaller":Math.abs(reduction).toFixed(1)+"% larger"}</p>
+    <p>New dimensions: ${width} × ${height} pixels</p>
+   </div>
+   <div class="preview-grid">
+    <div class="preview-box">
+     <strong>Original</strong>
+     <p>${formatBytes(file.size)}</p>
+     <img id="originalPreview" alt="Original image">
+    </div>
+    <div class="preview-box">
+     <strong>Compressed</strong>
+     <p>${formatBytes(blob.size)}</p>
+     <img src="${imageCompressedUrl}" alt="Compressed image">
+    </div>
+   </div>
+   <div class="button-row">
+    <button class="btn" onclick="downloadCompressed()">Download Image</button>
+   </div>`;
+  const reader=new FileReader();
+  reader.onload=e=>{
+   const preview=document.getElementById("originalPreview");
+   if(preview)preview.src=e.target.result;
+  };
+  reader.readAsDataURL(file);
+ }catch(error){
+  result.textContent="Error: "+error.message;
+ }
+}
+function downloadCompressed(){
+ if(!imageCompressedBlob||!imageCompressedUrl)return;
+ const format=document.getElementById("imageFormat").value;
+ const ext=format==="image/jpeg"?"jpg":format==="image/png"?"png":"webp";
+ const a=document.createElement("a");
+ a.href=imageCompressedUrl;
+ a.download="toolnest-compressed."+ext;
+ a.click();
+}
+
+/* TEXT CASE CONVERTER */
+function convertCase(type){
+ const input=document.getElementById("caseText");
+ let text=input.value;
+ if(type==="upper")text=text.toUpperCase();
+ if(type==="lower")text=text.toLowerCase();
+ if(type==="title")text=text.toLowerCase().replace(/\b\w/g,c=>c.toUpperCase());
+ if(type==="sentence")text=text.toLowerCase().replace(/(^\s*\w|[.!?]\s+\w)/g,c=>c.toUpperCase());
+ if(type==="alternating"){
+  let i=0;
+  text=text.toLowerCase().split("").map(c=>{
+   if(/[a-z]/.test(c)){const v=i%2===0?c.toUpperCase():c;i++;return v;}
+   return c;
+  }).join("");
+ }
+ if(type==="clear")text="";
+ input.value=text;
+ document.getElementById("caseResult").textContent=text||"Your converted text will appear here.";
+}
+async function copyCase(){
+ const text=document.getElementById("caseText").value;
+ if(!text)return alert("There is no text to copy.");
+ await copyText(text);
+ alert("Text copied.");
+}
+
+/* COMMON HELPERS */
+function showResult(value){
+ document.getElementById("result").textContent=value;
+}
+async function copyText(text){
+ if(navigator.clipboard&&window.isSecureContext){
+  await navigator.clipboard.writeText(text);
+ }else{
+  const area=document.createElement("textarea");
+  area.value=text;
+  document.body.appendChild(area);
+  area.select();
+  document.execCommand("copy");
+  area.remove();
+ }
+}
+</script>
+</body>
+</html>
