@@ -1,8 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
   <url>
-    <loc>https://YOUR-vijendarsinghrao27.github.io/looknext/</loc>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
+    <loc>https://vijendarsinghrao27.github.io/looknext/</loc>
   </url>
+
+  <url>
+    <loc>https://vijendarsinghrao27.github.io/looknext/about.html</loc>
+  </url>
+
+  <url>
+    <loc>https://vijendarsinghrao27.github.io/looknext/contact.html</loc>
+  </url>
+
+  <url>
+    <loc>https://vijendarsinghrao27.github.io/looknext/privacy.html</loc>
+  </url>
+
+  <url>
+    <loc>https://vijendarsinghrao27.github.io/looknext/terms.html</loc>
+  </url>
+
 </urlset>
