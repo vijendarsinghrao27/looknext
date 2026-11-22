@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://vijendarsinghrao27.github.io/looknext/sitemap.xml
